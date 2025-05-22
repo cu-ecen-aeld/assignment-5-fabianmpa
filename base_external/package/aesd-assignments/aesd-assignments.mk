@@ -6,7 +6,7 @@
 ##############################################################
 
 #Note: Latest commit is added, build works starting 57c5caf81dcab911472d809834a5c1eb3cff50a4
-AESD_ASSIGNMENTS_VERSION = 8110386a95c1f0162ec1e27a1e6a08236e9384ec
+AESD_ASSIGNMENTS_VERSION = 3457349be343f9b39d65e6d2f556fed481f85b26
 # Note: Be sure to reference the *ssh* repository URL here (not https) to work properly
 # with ssh keys and the automated build/test system.
 # Your site should start with git@github.com:
@@ -15,18 +15,12 @@ AESD_ASSIGNMENTS_SITE_METHOD = git
 AESD_ASSIGNMENTS_GIT_SUBMODULES = YES
 
 define AESD_ASSIGNMENTS_BUILD_CMDS
-	$(MAKE) $(TARGET_CONFIGURE_OPTS) -C $(@D)/finder-app all
+	$(MAKE) $(TARGET_CONFIGURE_OPTS) -C $(@D)/server all CROSS_COMPILE=true
 endef
 
-# TODO add your writer, finder and finder-test utilities/scripts to the installation steps below
 define AESD_ASSIGNMENTS_INSTALL_TARGET_CMDS
-	$(INSTALL) -d 0755 $(@D)/conf/ $(TARGET_DIR)/etc/finder-app/conf/
-	$(INSTALL) -m 0755 $(@D)/conf/* $(TARGET_DIR)/etc/finder-app/conf/
-	$(INSTALL) -m 0755 $(@D)/assignment-autotest/test/assignment4/* $(TARGET_DIR)/bin
-	$(INSTALL) -m 0777 $(@D)/finder-app/writer.sh $(TARGET_DIR)/bin
-	$(INSTALL) -m 0777 $(@D)/finder-app/finder.sh $(TARGET_DIR)/bin
-	$(INSTALL) -m 0777 $(@D)/finder-app/finder-test.sh $(TARGET_DIR)/bin
-	$(INSTALL) -m 0777 $(@D)/finder-app/writer $(TARGET_DIR)/bin
+	$(INSTALL) -m 0777 $(@D)/server/aesdsocket $(TARGET_DIR)/usr/bin
+	$(INSTALL) -m 0777 $(@D)/server/aesdsocket-start-stop $(TARGET_DIR)/etc/init.d/s99aesdsocket
 endef
 
 
